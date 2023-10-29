@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import { issueSchema } from "@/app/validationSchemas";
-import { param } from "ts-interface-checker";
-import { parsedUrlQueryToParams } from "next/dist/server/future/route-modules/app-route/helpers/parsed-url-query-to-params";
 
 interface Props {
   params: { id: string };
