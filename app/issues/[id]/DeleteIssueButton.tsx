@@ -1,12 +1,31 @@
-import { Pencil2Icon } from "@radix-ui/react-icons";
-import Link from "next/link";
-import { Button } from "@radix-ui/themes";
+"use client";
+
+import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 
 const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
   return (
-    <Button color={"red"}>
-      <Link href={`/issues/${issueId}/delete`}>Delete Issue</Link>
-    </Button>
+    <AlertDialog.Root>
+      <AlertDialog.Trigger>
+        <Button color={"red"}>Delete Issue</Button>
+      </AlertDialog.Trigger>
+      <AlertDialog.Content>
+        <AlertDialog.Title>Confirm Deletion</AlertDialog.Title>
+        <AlertDialog.Description>
+          Are you sure you want to delete this issue? This action cannot be
+          undone.
+        </AlertDialog.Description>
+        <Flex direction="row" gap="3" justify="end" mt="4">
+          <AlertDialog.Cancel>
+            <Button variant="soft" color="gray">
+              Cancel
+            </Button>
+          </AlertDialog.Cancel>
+          <AlertDialog.Action>
+            <Button color="red">Delete Issue</Button>
+          </AlertDialog.Action>
+        </Flex>
+      </AlertDialog.Content>
+    </AlertDialog.Root>
   );
 };
 
