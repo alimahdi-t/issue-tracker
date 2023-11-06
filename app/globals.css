@@ -6,14 +6,13 @@
   --foreground-rgb: 0, 0, 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  /*:root {*/
-  /*  --foreground-rgb: 255, 255, 255;*/
-
-  /*}*/
-}
 
 body {
   color: rgb(var(--foreground-rgb));
+}
 
+@layer utilities{
+  .nav-link {
+    @apply text-zinc-500 hover:text-zinc-800 transition-colors
+  }
 }
