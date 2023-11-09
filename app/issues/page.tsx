@@ -13,7 +13,7 @@ import {
 import { sort } from "next/dist/build/webpack/loaders/css-loader/src/utils";
 
 interface Props {
-  searchParams: { status: Status; orderBy: keyof Issue; sort: "asc" | "dec" };
+  searchParams: { status: Status; orderBy: keyof Issue; sort: "asc" | "desc" };
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
@@ -21,7 +21,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
     label: string;
     value: keyof Issue;
     className?: string;
-    sort?: "asc" | "dec";
+    sort?: "asc" | "desc";
   }[] = [
     { label: "Issue", value: "title" },
     { label: "Status", value: "status", className: "hidden md:table-cell" },
@@ -29,12 +29,21 @@ const IssuesPage = async ({ searchParams }: Props) => {
   ];
 
   const Statuses = Object.values(Status);
+
   const status = Statuses.includes(searchParams.status)
     ? searchParams.status
     : undefined;
 
+  const orderBy =
+    (columns.map((column) => column.value).includes(searchParams.orderBy) &&
+      searchParams.sort === "asc") ||
+    searchParams.sort === "desc"
+      ? { [searchParams.orderBy]: searchParams.sort }
+      : undefined;
+
   const issues = await prisma.issue.findMany({
     where: { status },
+    orderBy: orderBy,
   });
 
   return (
@@ -54,9 +63,9 @@ const IssuesPage = async ({ searchParams }: Props) => {
                       ...searchParams,
                       orderBy: column.value,
                       sort:
-                        searchParams.sort === "dec" || !searchParams.sort
+                        searchParams.sort === "desc" || !searchParams.sort
                           ? "asc"
-                          : "dec",
+                          : "desc",
                     },
                   }}
                 >
@@ -67,7 +76,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
                     <TriangleUpIcon className="inline" />
                   )}
                 {column.value === searchParams.orderBy &&
-                  searchParams.sort === "dec" && (
+                  searchParams.sort === "desc" && (
                     <TriangleDownIcon className="inline" />
                   )}
               </Table.ColumnHeaderCell>
