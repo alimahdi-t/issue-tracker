@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Loading from "./loading";
 import { Flex, Select } from "@radix-ui/themes";
 import SelectStatus from "@/app/issues/[id]/edit/SelectStatus";
+import { Metadata } from "next";
 
 const IssueForm = dynamic(() => import("@/app/issues/_components/IssueForm"), {
   ssr: false,
