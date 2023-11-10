@@ -2,6 +2,8 @@ import dynamic from "next/dynamic";
 import prisma from "@/prisma/client";
 import { notFound } from "next/navigation";
 import Loading from "./loading";
+import { Flex, Select } from "@radix-ui/themes";
+import SelectStatus from "@/app/issues/[id]/edit/SelectStatus";
 
 const IssueForm = dynamic(() => import("@/app/issues/_components/IssueForm"), {
   ssr: false,
@@ -19,7 +21,12 @@ const EditIssuePage = async ({ params }: Props) => {
 
   if (!issue) notFound();
 
-  return <IssueForm issue={issue} />;
+  return (
+    <Flex justify="between">
+      <IssueForm issue={issue} />
+      <SelectStatus issue={issue} />
+    </Flex>
+  );
 };
 
 export default EditIssuePage;
